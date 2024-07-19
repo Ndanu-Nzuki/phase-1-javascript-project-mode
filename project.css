@@ -1,0 +1,17 @@
+.recipeDetails{
+    text-align: left;
+}
+body{
+    padding: 30px;
+}
+#recipes{
+    text-align: center;
+    list-style: none;
+}
+#quickSearch{
+    text-align: right;
+    padding-right: 70px;
+}
+#main{
+    text-align: center;
+}
