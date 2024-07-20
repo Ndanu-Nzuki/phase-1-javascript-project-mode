@@ -1,15 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     const apiKey = '45a3613cee7843a4b29ef576b7354504';
     let recipeOffset = 0; // Variable to track offset for pagination
-
     const recipeList = document.getElementById('recipes');
     const recipeDetail = document.querySelector('.recipeDetails');
     const prevBtn = document.getElementById('prevRecipes');
     const nextBtn = document.getElementById('nextRecipes');
+    const quickSearch = document.getElementById('quickSearch');
+    const userSelection = document.getElementById('userSelection');
+    let currentSearchTerm = "";
 
-    // Function to fetch recipes from API
-    function fetchRecipes(offset) {
-        const api = `https://api.spoonacular.com/recipes/random?number=5&tags=breakfast&apiKey=${apiKey}&offset=${offset}`;
+    // Function to fetch recipes from API. Two paremeters offset the general list & query for the search
+    function fetchRecipes(offset, query) {
+        let api = `https://api.spoonacular.com/recipes/random?number=5&tags=breakfast&apiKey=${apiKey}&offset=${offset}`;
+        if (query) {
+            api += `&query=${query}`;
+        }
         fetch(api)
             .then(response => response.json())
             .then(data => {
@@ -84,6 +89,14 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchRecipes(recipeOffset);
     });
 
+    quickSearch.addEventListener('submit', function(event) {
+        event.preventDefault();
+        currentSearchTerm = userSelection.value.trim();
+        recipeOffset = 0; 
+        fetchRecipes(recipeOffset, currentSearchTerm);
+    });
+
+
     // Initial fetch of recipes when page loads
-    fetchRecipes(recipeOffset);
+    fetchRecipes(recipeOffset, currentSearchTerm);
 });
